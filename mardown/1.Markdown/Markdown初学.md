@@ -57,7 +57,7 @@
 图片和超链接类似，写法上只是多一个"!"。图片的路径可以是绝对路径（注意windows下的路径写法，用"/"分隔。）、相对路径或者是一个网络地址。
 
 ### 结束了
-Markdown的常用标记就写完了，已经可以满足大部分的时间使用了。
+Markdown的常用标记就写完了，已经可以满足大部分工作的使用了。
 
 ### 工具
 Visual Studio Code + Markdown All in One 插件 +  Markdown Preview Enhanced 插件
