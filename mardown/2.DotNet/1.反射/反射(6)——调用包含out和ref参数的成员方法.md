@@ -1,0 +1,50 @@
+# 反射(6)——调用包含out和ref参数的成员方法
+
+```
+//声明一个类型
+class Demo
+{        
+    public void OutTest(out int a) => a = 999;
+    public void RefTest(ref int a) => a = 888;
+}
+```
+
+1.使用Invoke调用
+
+```
+Type type = typeof(Demo);
+object demo = Activator.CreateInstance(type);
+
+MethodInfo outTest = type.GetMethod("OutTest");
+MethodInfo refTest = type.GetMethod("RefTest");
+
+//注意方法参数的声明
+object[] outTestArgs = new object[] { null };
+object[] refTestArgs = new object[] { null };
+
+//使用Invoke调用
+outTest.Invoke(demo, outTestArgs);
+refTest.Invoke(demo, refTestArgs);
+
+Console.WriteLine(outTestArgs[0]); //结果为：999
+Console.WriteLine(refTestArgs[0]); //结果为：888
+
+
+```
+
+2.使用InvokeMember调用
+```
+Type type = typeof(Demo);
+object demo = Activator.CreateInstance(type);
+
+//注意方法参数的声明
+object[] outTestArgs = new object[] { null };
+object[] refTestArgs = new object[] { null };
+
+//使用InvokeMember调用
+type.InvokeMember("OutTest", BindingFlags.InvokeMethod, null, demo, outTestArgs);
+type.InvokeMember("RefTest", BindingFlags.InvokeMethod, null, demo, refTestArgs);
+
+Console.WriteLine(outTestArgs[0]); //结果为：999
+Console.WriteLine(refTestArgs[0]); //结果为：888
+```
