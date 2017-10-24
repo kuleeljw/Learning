@@ -1,12 +1,16 @@
-const Koa = require('koa');
+var Koa = require('koa');
+var koaRouter = require('koa-router');
+var koaBodyparser = require('koa-bodyparser');
+var init = require('./init');
 
-const app = new Koa();
+var app = new Koa();
+var router = koaRouter();
 
-app.use(async (ctx, next) => {
-    await next();
-    ctx.response.type = 'text/html';
-    ctx.response.body = '<h1>Hello,koa2</h1>';
-});
+init.initController(router);
 
-app.listen(3000);
-console.log('app started as port 3000.....');
+app.use(koaBodyparser());
+app.use(init.initNunjucks('views'));
+app.use(init.initStaticsHandler('/static', __dirname));
+app.use(router.routes());
+
+app.listen(8080);
